@@ -4,6 +4,8 @@ import dotenv from 'dotenv'
 import { jsonParser } from './middleware/expressJson.js'
 import { corsUse } from './middleware/corsSetup.js'
 import { blogpostsRoute } from './routes/blogpostsRoute.js'
+import { writeBlogpostRoute } from './routes/writeBlogpostRoute.js'
+import { readBlogpostRoute } from './routes/readBlogpostRoute.js'
 dotenv.config()
 
 const app = express()
@@ -18,6 +20,21 @@ app.get('/test', (req, res) => {
 })
 
 app.get('/blogposts', blogpostsRoute)
+
+app.get('/blogposts/:id', readBlogpostRoute)
+
+app.get('/blogposts/api', async (req, res) => {
+    try {
+        const html = await fs.readFile('./api/api.html', {
+            encoding: 'utf-8',
+        })
+        res.send(html)
+    } catch (err) {
+        res.status(500).send(`something went wrong with the html? ${err}`)
+    }
+})
+
+app.get('/blogposts/new', writeBlogpostRoute)
 
 app.use((req, res) => {
     res.status(404).json({ status: '404', message: 'there is nothing here :(' })
