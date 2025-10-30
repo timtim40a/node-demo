@@ -34,7 +34,7 @@ app.get('/blogposts/api', async (req, res) => {
     }
 })
 
-app.get('/blogposts/new', writeBlogpostRoute)
+app.post('/blogposts/new', writeBlogpostRoute)
 
 app.use((req, res) => {
     res.status(404).json({ status: '404', message: 'there is nothing here :(' })

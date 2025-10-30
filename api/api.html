@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script src="api.js" defer type="module"></script>
+    </head>
+    <body>
+        <main>
+            <form action="/blogposts/new" method="POST">
+                <label for="title">Title</label>
+                <input class="form__title" name="title" />
+                <label for="summary">summary</label>
+                <textarea class="form__summary" name="summary"></textarea>
+                <label for="blog text">blog text</label>
+                <textarea class="form__text" name="text"></textarea>
+                <button type="submit" class="form__submit">Submit</button>
+            </form>
+        </main>
+    </body>
+</html>
