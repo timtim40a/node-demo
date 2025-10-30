@@ -1,44 +1,26 @@
 import express from 'express'
 import fs from 'node:fs/promises'
+import dotenv from 'dotenv'
+import { jsonParser } from './middleware/expressJson.js'
+import { corsUse } from './middleware/corsSetup.js'
+import { blogpostsRoute } from './routes/blogpostsRoute.js'
+dotenv.config()
 
 const app = express()
-const port = 3000
 
-app.get('/', (req, res) => {
-    res.send('Hello from Express')
+const port = process.env.PORT || 3000
+
+app.use(jsonParser)
+app.use(corsUse)
+
+app.get('/test', (req, res) => {
+    res.status(200).json({ lorem: 'ipsum' })
 })
 
-app.use(express.static('public'))
+app.get('/blogposts', blogpostsRoute)
 
-app.get('/secret', async (req, res, next) => {
-    try {
-        const data = await fs.readFile('./secret/secret-data.json', {
-            encoding: 'utf-8',
-        })
-        console.log(JSON.stringify(data))
-        res.json(JSON.parse(data))
-    } catch (err) {
-        res.status(500).send(`something broke? ${err}`)
-        next(err)
-    }
-})
-
-// app.get('/public/data.json', (req, res) => {
-//     console.log(res)
-
-//     res.sendFile()
-// })
-
-app.get('/secret2', async (req, res) => {
-    try {
-        const html = await fs.readFile('./secret/secret-html.html', {
-            encoding: 'utf-8',
-        })
-        console.log(html)
-        res.send(html)
-    } catch (err) {
-        res.status(500).send(`something went wrong? ${err}`)
-    }
+app.use((req, res) => {
+    res.status(404).json({ status: '404', message: 'there is nothing here :(' })
 })
 
 app.listen(port, () => {
