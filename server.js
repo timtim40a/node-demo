@@ -1,7 +1,7 @@
 import express from 'express'
 import fs from 'node:fs/promises'
 import dotenv from 'dotenv'
-import { jsonParser } from './middleware/expressJson.js'
+import { jsonParser, urlencoder } from './middleware/expressJson.js'
 import { corsUse } from './middleware/corsSetup.js'
 import { blogpostsRoute } from './routes/blogpostsRoute.js'
 import { writeBlogpostRoute } from './routes/writeBlogpostRoute.js'
@@ -14,6 +14,7 @@ const port = process.env.PORT || 3000
 
 app.use(jsonParser)
 app.use(corsUse)
+app.use(urlencoder)
 
 app.get('/test', (req, res) => {
     res.status(200).json({ lorem: 'ipsum' })
