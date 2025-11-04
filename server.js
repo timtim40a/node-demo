@@ -6,6 +6,7 @@ import { corsUse } from './middleware/corsSetup.js'
 import { blogpostsRoute } from './routes/blogpostsRoute.js'
 import { writeBlogpostRoute } from './routes/writeBlogpostRoute.js'
 import { readBlogpostRoute } from './routes/readBlogpostRoute.js'
+import { patchBlogpostRoute } from './routes/patchBlogpostRoute.js'
 dotenv.config()
 
 const app = express()
@@ -36,6 +37,8 @@ app.get('/blogposts/api', async (req, res) => {
 })
 
 app.post('/blogposts/new', writeBlogpostRoute)
+
+app.patch('/blogposts/:id', patchBlogpostRoute)
 
 app.use((req, res) => {
     res.status(404).json({ status: '404', message: 'there is nothing here :(' })
